@@ -7,6 +7,9 @@ void testar_array(int num_buscas);
 void testar_lista_nao_ordenada(int num_buscas);
 void testar_lista_ordenada(int num_buscas);
 void gerar_script_gnuplot(const char* tipo, const char* metrica);
+void testar_pior_caso_array();
+void testar_pior_caso_lista_nao_ordenada();
+void testar_pior_caso_lista_ordenada();
 
 int main() {
     setlocale(LC_ALL, "C"); // Garante separador decimal como ponto
@@ -17,6 +20,9 @@ int main() {
     printf("1 - Arranjo Estatico (Array)\n");
     printf("2 - Lista Ligada NAO Ordenada\n");
     printf("3 - Lista Ligada Ordenada\n");
+    printf("4 - Pior Caso - Array\n");
+    printf("5 - Pior Caso - Lista NAO Ordenada\n");
+    printf("6 - Pior Caso - Lista Ordenada\n");
     printf("Digite sua escolha: ");
     scanf("%d", &escolha);
 
@@ -25,6 +31,9 @@ int main() {
     scanf("%d", &num_buscas);
 
     switch(escolha) {
+        case 4: testar_pior_caso_array(); return 0;
+        case 5: testar_pior_caso_lista_nao_ordenada(); return 0;
+        case 6: testar_pior_caso_lista_ordenada(); return 0;
         case 1: testar_array(num_buscas); break;
         case 2: testar_lista_nao_ordenada(num_buscas); break;
         case 3: testar_lista_ordenada(num_buscas); break;
@@ -86,4 +95,19 @@ void gerar_script_gnuplot(const char* tipo, const char* metrica) {
         metrica
     );
     fclose(f);
+}
+
+void testar_pior_caso_array() {
+    printf("\nExecutando pior caso para Array...\n");
+    testar_array(10); // simulando 10 execuções forçadas com chave inexistente
+}
+
+void testar_pior_caso_lista_nao_ordenada() {
+    printf("\nExecutando pior caso para Lista NÃO Ordenada...\n");
+    testar_lista_nao_ordenada(10);
+}
+
+void testar_pior_caso_lista_ordenada() {
+    printf("\nExecutando pior caso para Lista Ordenada...\n");
+    testar_lista_ordenada(10);
 }
