@@ -98,6 +98,9 @@ void gerar_script_gnuplot(const char* tipo, const char* metrica) {
 }
 
 void testar_pior_caso_array() {
+    printf("\nExecutando pior caso para Array...\n");
+    testar_array(10, "pior_array.csv"); // gera o CSV primeiro
+
     char gerar;
     printf("\nDeseja gerar um grafico com os resultados? (Y/N): ");
     scanf(" %c", &gerar);
@@ -120,17 +123,17 @@ void testar_pior_caso_array() {
         printf("Gerando grafico com gnuplot...\n");
         int result = system("gnuplot gerar_grafico.gnuplot");
         if (result == 0) {
-            printf("Grafico gerado com sucesso: array_%%s.png\n", metrica);
+            printf("Grafico gerado com sucesso: pior_array_%%s.png\n", metrica);
         } else {
             printf("Falha ao executar gnuplot. Verifique se ele esta instalado no sistema.\n");
         }
     }
-
-    printf("\nExecutando pior caso para Array...\n");
-    testar_array(10, "pior_array.csv"); // simulando 10 execuções forçadas com chave inexistente
 }
 
 void testar_pior_caso_lista_nao_ordenada() {
+    printf("\nExecutando pior caso para Lista NÃO Ordenada...\n");
+    testar_lista_nao_ordenada(10, "pior_lista_nao_ordenada.csv");
+
     char gerar;
     printf("\nDeseja gerar um grafico com os resultados? (Y/N): ");
     scanf(" %c", &gerar);
@@ -164,6 +167,9 @@ void testar_pior_caso_lista_nao_ordenada() {
 }
 
 void testar_pior_caso_lista_ordenada() {
+    printf("\nExecutando pior caso para Lista Ordenada...\n");
+    testar_lista_ordenada(10, "pior_lista_ordenada.csv");
+
     char gerar;
     printf("\nDeseja gerar um grafico com os resultados? (Y/N): ");
     scanf(" %c", &gerar);
