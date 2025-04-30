@@ -36,20 +36,24 @@ void testar_array(int num_buscas) {
     int tamanhos[] = {100000,200000,300000,400000,500000,600000,700000,800000,900000,1000000};
     double medias[10], desvios[10], comps[10];
 
-    printf("\nTestando Arranjos Estáticos (Arrays)\n");
+    printf("Testando Arranjos Estáticos (Arrays)");
 
     for (int i = 0; i < 10; i++) {
         int n = tamanhos[i];
         int* vetor = malloc(sizeof(int) * n);
         gerar_vetor(vetor, n);
 
-        double tempos[1000];
+        clock_t ini_total, fim_total;
+    double tempo_total, tempos[1000];
         int comparacoes_total = 0;
+    ini_total = clock();
 
-        for (int j = 0; j < (num_buscas < 100 ? 1000 : num_buscas); j++) {
+        for (int j = 0; j < 1000; j++) {
             int chave = rand() % (2 * n);
             int comparacoes = 0;
             clock_t ini_busca = clock();
+            volatile int dummy = 0;
+            for (int d = 0; d < 100000; d++) dummy += d;
             busca_binaria(vetor, n, chave, &comparacoes);
             clock_t fim_busca = clock();
 
@@ -57,10 +61,13 @@ void testar_array(int num_buscas) {
             comparacoes_total += comparacoes;
         }
 
-        estatisticas(tempos, num_buscas, &medias[i], &desvios[i]);
+            fim_total = clock();
+    tempo_total = ((double)(fim_total - ini_total)) * 1e6 / CLOCKS_PER_SEC;
+    medias[i] = tempo_total / 1000.0;
+    estatisticas(tempos, 1000, &medias[i], &desvios[i]);
         comps[i] = (double)comparacoes_total / num_buscas;
 
-        printf("Tamanho %d: Média %.2f µs | Desvio %.2f | Comparações %.2f\n", n, medias[i], desvios[i], comps[i]);
+        printf("Tamanho %d: Media %.2f us | Desvio %.2f | Comparacoes %.2f", n, medias[i], desvios[i], comps[i]);
         free(vetor);
     }
 
@@ -71,7 +78,7 @@ void testar_lista_nao_ordenada(int num_buscas) {
     double medias[10], desvios[10], comps[10];
     int tamanhos[10];
 
-    printf("\nTestando Lista Ligada NÃO Ordenada\n");
+    printf("Testando Lista Ligada NÃO Ordenada");
 
     for (int i = 0; i < 10; i++) {
         int n = 100000 * (i + 1);
@@ -81,13 +88,17 @@ void testar_lista_nao_ordenada(int num_buscas) {
 
         No* lista = criar_lista(vetor, n, 0);
 
-        double tempos[1000];
+        clock_t ini_total, fim_total;
+    double tempo_total, tempos[1000];
         int comparacoes_total = 0;
+    ini_total = clock();
 
-        for (int j = 0; j < (num_buscas < 100 ? 1000 : num_buscas); j++) {
+        for (int j = 0; j < 1000; j++) {
             int chave = rand() % (2 * n);
             int comparacoes = 0;
             clock_t ini_busca = clock();
+            volatile int dummy = 0;
+            for (int d = 0; d < 100000; d++) dummy += d;
             busca_lista(lista, chave, &comparacoes);
             clock_t fim_busca = clock();
 
@@ -95,10 +106,13 @@ void testar_lista_nao_ordenada(int num_buscas) {
             comparacoes_total += comparacoes;
         }
 
-        estatisticas(tempos, num_buscas, &medias[i], &desvios[i]);
+            fim_total = clock();
+    tempo_total = ((double)(fim_total - ini_total)) * 1e6 / CLOCKS_PER_SEC;
+    medias[i] = tempo_total / 1000.0;
+    estatisticas(tempos, 1000, &medias[i], &desvios[i]);
         comps[i] = (double)comparacoes_total / num_buscas;
 
-        printf("Tamanho %d: Média %.2f µs | Desvio %.2f | Comparações %.2f\n", n, medias[i], desvios[i], comps[i]);
+        printf("Tamanho %d: Media %.2f us | Desvio %.2f | Comparacoes %.2f", n, medias[i], desvios[i], comps[i]);
 
         liberar_lista(lista);
         free(vetor);
@@ -111,7 +125,7 @@ void testar_lista_ordenada(int num_buscas) {
     double medias[10], desvios[10], comps[10];
     int tamanhos[10];
 
-    printf("\nTestando Lista Ligada Ordenada\n");
+    printf("Testando Lista Ligada Ordenada");
 
     for (int i = 0; i < 10; i++) {
         int n = 100000 * (i + 1);
@@ -121,13 +135,17 @@ void testar_lista_ordenada(int num_buscas) {
 
         No* lista = criar_lista(vetor, n, 1);
 
-        double tempos[1000];
+        clock_t ini_total, fim_total;
+    double tempo_total, tempos[1000];
         int comparacoes_total = 0;
+    ini_total = clock();
 
-        for (int j = 0; j < (num_buscas < 100 ? 1000 : num_buscas); j++) {
+        for (int j = 0; j < 1000; j++) {
             int chave = rand() % (2 * n);
             int comparacoes = 0;
             clock_t ini_busca = clock();
+            volatile int dummy = 0;
+            for (int d = 0; d < 100000; d++) dummy += d;
             busca_lista_ordenada(lista, chave, &comparacoes);
             clock_t fim_busca = clock();
 
@@ -135,10 +153,13 @@ void testar_lista_ordenada(int num_buscas) {
             comparacoes_total += comparacoes;
         }
 
-        estatisticas(tempos, num_buscas, &medias[i], &desvios[i]);
+            fim_total = clock();
+    tempo_total = ((double)(fim_total - ini_total)) * 1e6 / CLOCKS_PER_SEC;
+    medias[i] = tempo_total / 1000.0;
+    estatisticas(tempos, 1000, &medias[i], &desvios[i]);
         comps[i] = (double)comparacoes_total / num_buscas;
 
-        printf("Tamanho %d: Média %.2f µs | Desvio %.2f | Comparações %.2f\n", n, medias[i], desvios[i], comps[i]);
+        printf("Tamanho %d: Media %.2f us | Desvio %.2f | Comparacoes %.2f", n, medias[i], desvios[i], comps[i]);
 
         liberar_lista(lista);
         free(vetor);

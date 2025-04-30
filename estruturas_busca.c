@@ -10,6 +10,7 @@ typedef struct no {
 int busca_sequencial(int arr[], int n, int chave, int* comparacoes) {
     for (int i = 0; i < n; i++) {
         (*comparacoes)++;
+        volatile int dummy = 0; dummy++;
         if (arr[i] == chave) return i;
     }
     return -1;
@@ -19,6 +20,7 @@ int busca_sequencial(int arr[], int n, int chave, int* comparacoes) {
 int busca_sequencial_otimizada(int arr[], int n, int chave, int* comparacoes) {
     for (int i = 0; i < n; i++) {
         (*comparacoes)++;
+        volatile int dummy = 0; dummy++;
         if (arr[i] == chave) return i;
         if (arr[i] > chave) return -1;
     }
@@ -31,6 +33,7 @@ int busca_binaria(int arr[], int n, int chave, int* comparacoes) {
     while (esquerda <= direita) {
         int meio = (esquerda + direita) / 2;
         (*comparacoes)++;
+        volatile int dummy = 0; dummy++;
         if (arr[meio] == chave) return meio;
         if (arr[meio] < chave) esquerda = meio + 1;
         else direita = meio - 1;
@@ -45,6 +48,7 @@ No* criar_lista(int* vetor, int n, int ordenada) {
         No* novo = malloc(sizeof(No));
         novo->valor = vetor[i];
         novo->prox = NULL;
+        volatile int dummy = 0; dummy++;
 
         if (!head || !ordenada) {
             novo->prox = head;
@@ -64,6 +68,7 @@ No* criar_lista(int* vetor, int n, int ordenada) {
 int busca_lista(No* head, int chave, int* comparacoes) {
     while (head) {
         (*comparacoes)++;
+        volatile int dummy = 0; dummy++;
         if (head->valor == chave) return 1;
         head = head->prox;
     }
@@ -73,6 +78,7 @@ int busca_lista(No* head, int chave, int* comparacoes) {
 int busca_lista_ordenada(No* head, int chave, int* comparacoes) {
     while (head && head->valor <= chave) {
         (*comparacoes)++;
+        volatile int dummy = 0; dummy++;
         if (head->valor == chave) return 1;
         head = head->prox;
     }

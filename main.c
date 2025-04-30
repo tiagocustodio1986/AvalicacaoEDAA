@@ -12,32 +12,32 @@ int main() {
     setlocale(LC_ALL, "C"); // Garante separador decimal como ponto
 
     int escolha;
-    printf("Bem-vindo ao programa de Avaliação de Algoritmos de Busca!\n");
+    printf("Bem-vindo ao programa de Avaliacao de Algoritmos de Busca!\n");
     printf("Escolha a estrutura que deseja testar:\n");
-    printf("1 - Arranjo Estático (Array)\n");
-    printf("2 - Lista Ligada NÃO Ordenada\n");
+    printf("1 - Arranjo Estatico (Array)\n");
+    printf("2 - Lista Ligada NAO Ordenada\n");
     printf("3 - Lista Ligada Ordenada\n");
     printf("Digite sua escolha: ");
     scanf("%d", &escolha);
 
     int num_buscas;
-    printf("Quantas buscas você deseja realizar? ");
+    printf("Quantas buscas voce deseja realizar? ");
     scanf("%d", &num_buscas);
 
     switch(escolha) {
         case 1: testar_array(num_buscas); break;
         case 2: testar_lista_nao_ordenada(num_buscas); break;
         case 3: testar_lista_ordenada(num_buscas); break;
-        default: printf("Opção inválida.\n"); return 0;
+        default: printf("Opcao invalida.\n"); return 0;
     }
 
     char gerar;
-    printf("\nDeseja gerar um gráfico com os resultados? (Y/N): ");
+    printf("\nDeseja gerar um grafico com os resultados? (Y/N): ");
     scanf(" %c", &gerar);
 
     if (gerar == 'Y' || gerar == 'y') {
-        printf("Escolha o tipo de resultado para o gráfico:\n");
-        printf("1 - Média dos Tempos\n2 - Desvio Padrão\n3 - Comparações\n");
+        printf("Escolha o tipo de resultado para o grafico:\n");
+        printf("1 - Media dos Tempos\n2 - Desvio Padrao\n3 - Comparacoes\n");
         int opcao;
         scanf("%d", &opcao);
 
@@ -46,18 +46,18 @@ int main() {
             case 1: metrica = "media"; break;
             case 2: metrica = "desvio"; break;
             case 3: metrica = "comparacoes"; break;
-            default: printf("Opção inválida.\n"); return 0;
+            default: printf("Opcao invalida.\n"); return 0;
         }
 
         const char* tipo[] = {"array", "lista_nao_ordenada", "lista_ordenada"};
         gerar_script_gnuplot(tipo[escolha - 1], metrica);
 
-        printf("Gerando gráfico com gnuplot...\n");
+        printf("Gerando grafico com gnuplot...\n");
         int result = system("gnuplot gerar_grafico.gnuplot");
         if (result == 0) {
-            printf("Gráfico gerado com sucesso: %s_%s.png\n", tipo[escolha - 1], metrica);
+            printf("Grafico gerado com sucesso: %s_%s.png\n", tipo[escolha - 1], metrica);
         } else {
-            printf("Falha ao executar gnuplot. Verifique se ele está instalado no sistema.\n");
+            printf("Falha ao executar gnuplot. Verifique se ele esta instalado no sistema.\n");
         }
     }
 
