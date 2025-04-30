@@ -32,7 +32,7 @@ void escrever_csv(const char* filename, int tamanhos[], double medias[], double 
     fclose(f);
 }
 
-void testar_array(int num_buscas) {
+void testar_array(int num_buscas, const char* nome_csv) {
     int tamanhos[] = {100000,200000,300000,400000,500000,600000,700000,800000,900000,1000000};
     double medias[10], desvios[10], comps[10];
 
@@ -71,10 +71,11 @@ void testar_array(int num_buscas) {
         free(vetor);
     }
 
-    escrever_csv("array.csv", tamanhos, medias, desvios, comps, 10);
+    escrever_csv(nome_csv, tamanhos, medias, desvios, comps, 10);
+    escrever_csv("pior_array.csv", tamanhos, medias, desvios, comps, 10);
 }
 
-void testar_lista_nao_ordenada(int num_buscas) {
+void testar_lista_nao_ordenada(int num_buscas, const char* nome_csv) {
     double medias[10], desvios[10], comps[10];
     int tamanhos[10];
 
@@ -118,10 +119,11 @@ void testar_lista_nao_ordenada(int num_buscas) {
         free(vetor);
     }
 
-    escrever_csv("lista_nao_ordenada.csv", tamanhos, medias, desvios, comps, 10);
+    escrever_csv(nome_csv, tamanhos, medias, desvios, comps, 10);
+    escrever_csv("pior_lista_nao_ordenada.csv", tamanhos, medias, desvios, comps, 10);
 }
 
-void testar_lista_ordenada(int num_buscas) {
+void testar_lista_ordenada(int num_buscas, const char* nome_csv) {
     double medias[10], desvios[10], comps[10];
     int tamanhos[10];
 
@@ -165,5 +167,6 @@ void testar_lista_ordenada(int num_buscas) {
         free(vetor);
     }
 
-    escrever_csv("lista_ordenada.csv", tamanhos, medias, desvios, comps, 10);
+    escrever_csv(nome_csv, tamanhos, medias, desvios, comps, 10);
+    escrever_csv("pior_lista_ordenada.csv", tamanhos, medias, desvios, comps, 10);
 }

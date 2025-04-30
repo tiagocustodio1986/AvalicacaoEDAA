@@ -3,9 +3,9 @@
 #include <string.h>
 #include <locale.h>
 
-void testar_array(int num_buscas);
-void testar_lista_nao_ordenada(int num_buscas);
-void testar_lista_ordenada(int num_buscas);
+void testar_array(int num_buscas, const char* nome_csv);
+void testar_lista_nao_ordenada(int num_buscas, const char* nome_csv);
+void testar_lista_ordenada(int num_buscas, const char* nome_csv);
 void gerar_script_gnuplot(const char* tipo, const char* metrica);
 void testar_pior_caso_array();
 void testar_pior_caso_lista_nao_ordenada();
@@ -34,9 +34,9 @@ int main() {
         case 4: testar_pior_caso_array(); return 0;
         case 5: testar_pior_caso_lista_nao_ordenada(); return 0;
         case 6: testar_pior_caso_lista_ordenada(); return 0;
-        case 1: testar_array(num_buscas); break;
-        case 2: testar_lista_nao_ordenada(num_buscas); break;
-        case 3: testar_lista_ordenada(num_buscas); break;
+        case 1: testar_array(num_buscas, "array.csv"); break;
+        case 2: testar_lista_nao_ordenada(num_buscas, "lista_nao_ordenada.csv"); break;
+        case 3: testar_lista_ordenada(num_buscas, "lista_ordenada.csv"); break;
         default: printf("Opcao invalida.\n"); return 0;
     }
 
@@ -98,16 +98,100 @@ void gerar_script_gnuplot(const char* tipo, const char* metrica) {
 }
 
 void testar_pior_caso_array() {
+    char gerar;
+    printf("\nDeseja gerar um grafico com os resultados? (Y/N): ");
+    scanf(" %c", &gerar);
+
+    if (gerar == 'Y' || gerar == 'y') {
+        printf("Escolha o tipo de resultado para o grafico:\n");
+        printf("1 - Media dos Tempos\n2 - Desvio Padrao\n3 - Comparacoes\n");
+        int opcao;
+        scanf("%d", &opcao);
+
+        char* metrica;
+        switch(opcao) {
+            case 1: metrica = "media"; break;
+            case 2: metrica = "desvio"; break;
+            case 3: metrica = "comparacoes"; break;
+            default: printf("Opcao invalida.\n"); return;
+        }
+
+        gerar_script_gnuplot("pior_array", metrica);
+        printf("Gerando grafico com gnuplot...\n");
+        int result = system("gnuplot gerar_grafico.gnuplot");
+        if (result == 0) {
+            printf("Grafico gerado com sucesso: array_%%s.png\n", metrica);
+        } else {
+            printf("Falha ao executar gnuplot. Verifique se ele esta instalado no sistema.\n");
+        }
+    }
+
     printf("\nExecutando pior caso para Array...\n");
-    testar_array(10); // simulando 10 execuções forçadas com chave inexistente
+    testar_array(10, "pior_array.csv"); // simulando 10 execuções forçadas com chave inexistente
 }
 
 void testar_pior_caso_lista_nao_ordenada() {
+    char gerar;
+    printf("\nDeseja gerar um grafico com os resultados? (Y/N): ");
+    scanf(" %c", &gerar);
+
+    if (gerar == 'Y' || gerar == 'y') {
+        printf("Escolha o tipo de resultado para o grafico:\n");
+        printf("1 - Media dos Tempos\n2 - Desvio Padrao\n3 - Comparacoes\n");
+        int opcao;
+        scanf("%d", &opcao);
+
+        char* metrica;
+        switch(opcao) {
+            case 1: metrica = "media"; break;
+            case 2: metrica = "desvio"; break;
+            case 3: metrica = "comparacoes"; break;
+            default: printf("Opcao invalida.\n"); return;
+        }
+
+        gerar_script_gnuplot("pior_lista_nao_ordenada", metrica);
+        printf("Gerando grafico com gnuplot...\n");
+        int result = system("gnuplot gerar_grafico.gnuplot");
+        if (result == 0) {
+            printf("Grafico gerado com sucesso: lista_nao_ordenada_%%s.png\n", metrica);
+        } else {
+            printf("Falha ao executar gnuplot. Verifique se ele esta instalado no sistema.\n");
+        }
+    }
+
     printf("\nExecutando pior caso para Lista NÃO Ordenada...\n");
-    testar_lista_nao_ordenada(10);
+    testar_lista_nao_ordenada(10, "pior_lista_nao_ordenada.csv");
 }
 
 void testar_pior_caso_lista_ordenada() {
+    char gerar;
+    printf("\nDeseja gerar um grafico com os resultados? (Y/N): ");
+    scanf(" %c", &gerar);
+
+    if (gerar == 'Y' || gerar == 'y') {
+        printf("Escolha o tipo de resultado para o grafico:\n");
+        printf("1 - Media dos Tempos\n2 - Desvio Padrao\n3 - Comparacoes\n");
+        int opcao;
+        scanf("%d", &opcao);
+
+        char* metrica;
+        switch(opcao) {
+            case 1: metrica = "media"; break;
+            case 2: metrica = "desvio"; break;
+            case 3: metrica = "comparacoes"; break;
+            default: printf("Opcao invalida.\n"); return;
+        }
+
+        gerar_script_gnuplot("pior_lista_ordenada", metrica);
+        printf("Gerando grafico com gnuplot...\n");
+        int result = system("gnuplot gerar_grafico.gnuplot");
+        if (result == 0) {
+            printf("Grafico gerado com sucesso: lista_ordenada_%%s.png\n", metrica);
+        } else {
+            printf("Falha ao executar gnuplot. Verifique se ele esta instalado no sistema.\n");
+        }
+    }
+
     printf("\nExecutando pior caso para Lista Ordenada...\n");
-    testar_lista_ordenada(10);
+    testar_lista_ordenada(10, "pior_lista_ordenada.csv");
 }
