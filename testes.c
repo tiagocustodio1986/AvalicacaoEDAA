@@ -5,13 +5,13 @@
 #include <math.h>
 #include "estruturas_busca.h"
 
-void gerar_vetor(int* vetor, int n) {
-    for (int i = 0; i < n; i++) vetor[i] = i * 2;
+void gerar_vetor(long* vetor, long n) {
+    for (long i = 0; i < n; i++) vetor[i] = i * 2;
 }
 
-void estatisticas(double tempos[], int n, double* media, double* desvio) {
+void estatisticas(double tempos[], long n, double* media, double* desvio) {
     double soma = 0, soma_quadrados = 0;
-    for (int i = 0; i < n; i++) {
+    for (long i = 0; i < n; i++) {
         soma += tempos[i];
         soma_quadrados += tempos[i] * tempos[i];
     }
@@ -19,41 +19,41 @@ void estatisticas(double tempos[], int n, double* media, double* desvio) {
     *desvio = sqrt((soma_quadrados / n) - (*media * *media));
 }
 
-void escrever_csv(const char* filename, int tamanhos[], double medias[], double desvios[], double comparacoes[], int n) {
+void escrever_csv(const char* filename, long tamanhos[], double medias[], double desvios[], double comparacoes[], long n) {
     FILE* f = fopen(filename, "w");
     if (!f) {
-        printf("Erro ao criar arquivo CSV: %s\n", filename);
+        prlongf("Erro ao criar arquivo CSV: %s\n", filename);
         return;
     }
-    fprintf(f, "#tamanho,media,desvio,comparacoes\n");
-    for (int i = 0; i < n; i++) {
-        fprintf(f, "%d,%.2f,%.2f,%.2f\n", tamanhos[i], medias[i], desvios[i], comparacoes[i]);
+    fprlongf(f, "#tamanho,media,desvio,comparacoes\n");
+    for (long i = 0; i < n; i++) {
+        fprlongf(f, "%d,%.2f,%.2f,%.2f\n", tamanhos[i], medias[i], desvios[i], comparacoes[i]);
     }
     fclose(f);
 }
 
-void testar_array(int num_buscas, const char* nome_csv) {
-    int tamanhos[] = {100000,200000,300000,400000,500000,600000,700000,800000,900000,1000000};
+void testar_array(long num_buscas, const char* nome_csv) {
+    long tamanhos[] = {100000,200000,300000,400000,500000,600000,700000,800000,900000,1000000};
     double medias[10], desvios[10], comps[10];
 
-    printf("Testando Arranjos Estáticos (Arrays)");
+    prlongf("Testando Arranjos Estáticos (Arrays)");
 
-    for (int i = 0; i < 10; i++) {
-        int n = tamanhos[i];
-        int* vetor = malloc(sizeof(int) * n);
+    for (long i = 0; i < 10; i++) {
+        long n = tamanhos[i];
+        long* vetor = malloc(sizeof(long) * n);
         gerar_vetor(vetor, n);
 
         clock_t ini_total, fim_total;
     double tempo_total, tempos[1000];
-        int comparacoes_total = 0;
+        long comparacoes_total = 0;
     ini_total = clock();
 
-        for (int j = 0; j < 1000; j++) {
-            int chave = rand() % (2 * n);
-            int comparacoes = 0;
+        for (long j = 0; j < 1000; j++) {
+            long chave = rand() % (2 * n);
+            long comparacoes = 0;
             clock_t ini_busca = clock();
-            volatile int dummy = 0;
-            for (int d = 0; d < 100000; d++) dummy += d;
+            volatile long dummy = 0;
+            for (long d = 0; d < 100000; d++) dummy += d;
             busca_binaria(vetor, n, chave, &comparacoes);
             clock_t fim_busca = clock();
 
@@ -67,7 +67,7 @@ void testar_array(int num_buscas, const char* nome_csv) {
     estatisticas(tempos, 1000, &medias[i], &desvios[i]);
         comps[i] = (double)comparacoes_total / num_buscas;
 
-        printf("Tamanho %d: Media %.2f us | Desvio %.2f | Comparacoes %.2f", n, medias[i], desvios[i], comps[i]);
+        prlongf("Tamanho %d: Media %.2f us | Desvio %.2f | Comparacoes %.2f", n, medias[i], desvios[i], comps[i]);
         free(vetor);
     }
 
@@ -75,31 +75,31 @@ void testar_array(int num_buscas, const char* nome_csv) {
     escrever_csv("pior_array.csv", tamanhos, medias, desvios, comps, 10);
 }
 
-void testar_lista_nao_ordenada(int num_buscas, const char* nome_csv) {
+void testar_lista_nao_ordenada(long num_buscas, const char* nome_csv) {
     double medias[10], desvios[10], comps[10];
-    int tamanhos[10];
+    long tamanhos[10];
 
-    printf("Testando Lista Ligada NÃO Ordenada");
+    prlongf("Testando Lista Ligada NÃO Ordenada");
 
-    for (int i = 0; i < 10; i++) {
-        int n = 100000 * (i + 1);
+    for (long i = 0; i < 10; i++) {
+        long n = 100000 * (i + 1);
         tamanhos[i] = n;
-        int* vetor = malloc(sizeof(int) * n);
+        long* vetor = malloc(sizeof(long) * n);
         gerar_vetor(vetor, n);
 
         No* lista = criar_lista(vetor, n, 0);
 
         clock_t ini_total, fim_total;
     double tempo_total, tempos[1000];
-        int comparacoes_total = 0;
+        long comparacoes_total = 0;
     ini_total = clock();
 
-        for (int j = 0; j < 1000; j++) {
-            int chave = rand() % (2 * n);
-            int comparacoes = 0;
+        for (long j = 0; j < 1000; j++) {
+            long chave = rand() % (2 * n);
+            long comparacoes = 0;
             clock_t ini_busca = clock();
-            volatile int dummy = 0;
-            for (int d = 0; d < 100000; d++) dummy += d;
+            volatile long dummy = 0;
+            for (long d = 0; d < 100000; d++) dummy += d;
             busca_lista(lista, chave, &comparacoes);
             clock_t fim_busca = clock();
 
@@ -113,7 +113,7 @@ void testar_lista_nao_ordenada(int num_buscas, const char* nome_csv) {
     estatisticas(tempos, 1000, &medias[i], &desvios[i]);
         comps[i] = (double)comparacoes_total / num_buscas;
 
-        printf("Tamanho %d: Media %.2f us | Desvio %.2f | Comparacoes %.2f", n, medias[i], desvios[i], comps[i]);
+        prlongf("Tamanho %d: Media %.2f us | Desvio %.2f | Comparacoes %.2f", n, medias[i], desvios[i], comps[i]);
 
         liberar_lista(lista);
         free(vetor);
@@ -123,31 +123,31 @@ void testar_lista_nao_ordenada(int num_buscas, const char* nome_csv) {
     escrever_csv("pior_lista_nao_ordenada.csv", tamanhos, medias, desvios, comps, 10);
 }
 
-void testar_lista_ordenada(int num_buscas, const char* nome_csv) {
+void testar_lista_ordenada(long num_buscas, const char* nome_csv) {
     double medias[10], desvios[10], comps[10];
-    int tamanhos[10];
+    long tamanhos[10];
 
-    printf("Testando Lista Ligada Ordenada");
+    prlongf("Testando Lista Ligada Ordenada");
 
-    for (int i = 0; i < 10; i++) {
-        int n = 100000 * (i + 1);
+    for (long i = 0; i < 10; i++) {
+        long n = 100000 * (i + 1);
         tamanhos[i] = n;
-        int* vetor = malloc(sizeof(int) * n);
+        long* vetor = malloc(sizeof(long) * n);
         gerar_vetor(vetor, n);
 
         No* lista = criar_lista(vetor, n, 1);
 
         clock_t ini_total, fim_total;
     double tempo_total, tempos[1000];
-        int comparacoes_total = 0;
+        long comparacoes_total = 0;
     ini_total = clock();
 
-        for (int j = 0; j < 1000; j++) {
-            int chave = rand() % (2 * n);
-            int comparacoes = 0;
+        for (long j = 0; j < 1000; j++) {
+            long chave = rand() % (2 * n);
+            long comparacoes = 0;
             clock_t ini_busca = clock();
-            volatile int dummy = 0;
-            for (int d = 0; d < 100000; d++) dummy += d;
+            volatile long dummy = 0;
+            for (long d = 0; d < 100000; d++) dummy += d;
             busca_lista_ordenada(lista, chave, &comparacoes);
             clock_t fim_busca = clock();
 
@@ -161,7 +161,7 @@ void testar_lista_ordenada(int num_buscas, const char* nome_csv) {
     estatisticas(tempos, 1000, &medias[i], &desvios[i]);
         comps[i] = (double)comparacoes_total / num_buscas;
 
-        printf("Tamanho %d: Media %.2f us | Desvio %.2f | Comparacoes %.2f", n, medias[i], desvios[i], comps[i]);
+        prlongf("Tamanho %d: Media %.2f us | Desvio %.2f | Comparacoes %.2f", n, medias[i], desvios[i], comps[i]);
 
         liberar_lista(lista);
         free(vetor);

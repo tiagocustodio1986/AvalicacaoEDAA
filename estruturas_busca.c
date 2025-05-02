@@ -2,25 +2,25 @@
 #include <stdlib.h>
 
 typedef struct no {
-    int valor;
+    long valor;
     struct no* prox;
 } No;
 
 // Busca sequencial simples
-int busca_sequencial(int arr[], int n, int chave, int* comparacoes) {
-    for (int i = 0; i < n; i++) {
+long busca_sequencial(long arr[], long n, long chave, long* comparacoes) {
+    for (long i = 0; i < n; i++) {
         (*comparacoes)++;
-        volatile int dummy = 0; dummy++;
+        volatile long dummy = 0; dummy++;
         if (arr[i] == chave) return i;
     }
     return -1;
 }
 
 // Busca sequencial otimizada (ordem crescente)
-int busca_sequencial_otimizada(int arr[], int n, int chave, int* comparacoes) {
-    for (int i = 0; i < n; i++) {
+long busca_sequencial_otimizada(long arr[], long n, long chave, long* comparacoes) {
+    for (long i = 0; i < n; i++) {
         (*comparacoes)++;
-        volatile int dummy = 0; dummy++;
+        volatile long dummy = 0; dummy++;
         if (arr[i] == chave) return i;
         if (arr[i] > chave) return -1;
     }
@@ -28,12 +28,12 @@ int busca_sequencial_otimizada(int arr[], int n, int chave, int* comparacoes) {
 }
 
 // Busca binária
-int busca_binaria(int arr[], int n, int chave, int* comparacoes) {
-    int esquerda = 0, direita = n - 1;
+long busca_binaria(long arr[], long n, long chave, long* comparacoes) {
+    long esquerda = 0, direita = n - 1;
     while (esquerda <= direita) {
-        int meio = (esquerda + direita) / 2;
+        long meio = (esquerda + direita) / 2;
         (*comparacoes)++;
-        volatile int dummy = 0; dummy++;
+        volatile long dummy = 0; dummy++;
         if (arr[meio] == chave) return meio;
         if (arr[meio] < chave) esquerda = meio + 1;
         else direita = meio - 1;
@@ -42,13 +42,13 @@ int busca_binaria(int arr[], int n, int chave, int* comparacoes) {
 }
 
 // Criação de lista ligada
-No* criar_lista(int* vetor, int n, int ordenada) {
+No* criar_lista(long* vetor, long n, long ordenada) {
     No* head = NULL;
-    for (int i = 0; i < n; i++) {
+    for (long i = 0; i < n; i++) {
         No* novo = malloc(sizeof(No));
         novo->valor = vetor[i];
         novo->prox = NULL;
-        volatile int dummy = 0; dummy++;
+        volatile long dummy = 0; dummy++;
 
         if (!head || !ordenada) {
             novo->prox = head;
@@ -65,20 +65,20 @@ No* criar_lista(int* vetor, int n, int ordenada) {
     return head;
 }
 
-int busca_lista(No* head, int chave, int* comparacoes) {
+long busca_lista(No* head, long chave, long* comparacoes) {
     while (head) {
         (*comparacoes)++;
-        volatile int dummy = 0; dummy++;
+        volatile long dummy = 0; dummy++;
         if (head->valor == chave) return 1;
         head = head->prox;
     }
     return 0;
 }
 
-int busca_lista_ordenada(No* head, int chave, int* comparacoes) {
+long busca_lista_ordenada(No* head, long chave, long* comparacoes) {
     while (head && head->valor <= chave) {
         (*comparacoes)++;
-        volatile int dummy = 0; dummy++;
+        volatile long dummy = 0; dummy++;
         if (head->valor == chave) return 1;
         head = head->prox;
     }
